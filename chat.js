@@ -1,4 +1,4 @@
-// Interactive Chat Widget for n8n - Revamped Style by Gemini
+// Interactive Chat Widget for n8n - Revamped Style by Gemini (Footer Removed)
 (function() {
     // Initialize widget only once
     if (window.N8nChatWidgetLoaded) return;
@@ -323,10 +323,8 @@
         .chat-assist-widget .chat-launcher svg { width: 26px; height: 26px; }
         .chat-assist-widget .chat-launcher-text { font-weight: 600; font-size: 15px; }
         
-        /* Other styles like footer, suggested questions, forms etc. remain largely the same for functionality */
-        .chat-assist-widget .chat-footer { padding: 10px; text-align: center; background: #f8f9fc; border-top: 1px solid var(--chat-color-border); }
-        .chat-assist-widget .chat-footer-link { color: var(--chat-color-primary); text-decoration: none; font-size: 12px; transition: var(--chat-transition); }
-        .chat-assist-widget .chat-footer-link:hover { color: var(--chat-color-secondary); }
+        /* The CSS for chat-footer is no longer needed as the element is removed from HTML */
+
         .chat-assist-widget .suggested-questions { display: flex; flex-direction: column; gap: 8px; margin: 12px 0; align-self: flex-start; max-width: 85%; }
         .chat-assist-widget .suggested-question-btn { background: #f3f4f6; border: 1px solid var(--chat-color-border); border-radius: var(--chat-radius-md); padding: 10px 14px; text-align: left; font-size: 13px; color: var(--chat-color-text); cursor: pointer; transition: var(--chat-transition); }
         .chat-assist-widget .suggested-question-btn:hover { background: var(--chat-color-light); border-color: var(--chat-color-primary); }
@@ -359,6 +357,7 @@
             name: '',
             welcomeText: '',
             responseTimeText: '',
+            // The poweredBy object is no longer used for display, but we can keep it in the config
             poweredBy: {
                 text: 'Powered by n8n',
                 link: 'https://n8n.partnerlinks.io/fabimarkl'
@@ -443,10 +442,7 @@
                     </svg>
                 </button>
             </div>
-            <div class="chat-footer">
-                <a class="chat-footer-link" href="${settings.branding.poweredBy.link}" target="_blank">${settings.branding.poweredBy.text}</a>
             </div>
-        </div>
     `;
     
     chatWindow.innerHTML = welcomeScreenHTML + chatInterfaceHTML;
