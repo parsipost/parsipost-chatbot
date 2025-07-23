@@ -14,8 +14,8 @@
     const widgetStyles = document.createElement('style');
     widgetStyles.textContent = `
         .chat-assist-widget {
-            --chat-color-primary: var(--chat-widget-primary, #e22a22);
-            --chat-color-secondary: var(--chat-widget-secondary, #e22a22);
+            --chat-color-primary: var(--chat-widget-primary, #3b82f6);
+            --chat-color-secondary: var(--chat-widget-secondary, #6366f1);
             --chat-color-tertiary: var(--chat-widget-tertiary, #4f46e5);
             --chat-color-light: var(--chat-widget-light, #e0e7ff);
             --chat-color-surface: var(--chat-widget-surface, #ffffff);
@@ -359,13 +359,13 @@
             responseTimeText: '',
             // The poweredBy object is no longer used for display, but we can keep it in the config
             poweredBy: {
-                text: 'Powered by n8n',
+                text: 'Powered by parsipost',
                 link: 'https://n8n.partnerlinks.io/fabimarkl'
             }
         },
         style: {
-            primaryColor: '#e22a22', // Blue
-            secondaryColor: '#e22a22', // Indigo
+            primaryColor: '#3b82f6', // Blue
+            secondaryColor: '#6366f1', // Indigo
             position: 'right',
             backgroundColor: '#ffffff',
             fontColor: '#111827'
