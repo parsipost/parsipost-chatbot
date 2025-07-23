@@ -1,4 +1,4 @@
-// Interactive Chat Widget for n8n - Revamped Style by Gemini (Red & Gray Theme)
+// Interactive Chat Widget for n8n - Revamped Style by Gemini (Custom Red & Gray Theme)
 (function() {
     // Initialize widget only once
     if (window.N8nChatWidgetLoaded) return;
@@ -10,13 +10,13 @@
     fontElement.href = 'https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap';
     document.head.appendChild(fontElement);
 
-    // Apply widget styles with a new red/gray theme
+    // Apply widget styles with the user-specified red/gray theme
     const widgetStyles = document.createElement('style');
     widgetStyles.textContent = `
         .chat-assist-widget {
-            --chat-color-primary: var(--chat-widget-primary, #ef4444);      /* Red */
-            --chat-color-secondary: var(--chat-widget-secondary, #c53030);   /* Darker Red */
-            --chat-color-light: var(--chat-widget-light, #fee2e2);          /* Light Red/Pink */
+            --chat-color-primary: var(--chat-widget-primary, #e22a22);      /* Custom Red */
+            --chat-color-secondary: var(--chat-widget-secondary, #b81e1e);   /* Darker Custom Red */
+            --chat-color-light: var(--chat-widget-light, #f9d6d6);          /* Lighter Custom Red */
             --chat-color-surface: var(--chat-widget-surface, #ffffff);
             --chat-color-text: var(--chat-widget-text, #2d3748);            /* Dark Gray */
             --chat-color-text-light: var(--chat-widget-text-light, #718096);/* Medium Gray */
@@ -325,7 +325,7 @@
     `;
     document.head.appendChild(widgetStyles);
 
-    // Default configuration with the new red/gray theme
+    // Default configuration with the new custom red/gray theme
     const defaultSettings = {
         webhook: {
             url: '',
@@ -342,8 +342,8 @@
             }
         },
         style: {
-            primaryColor: '#ef4444',     // Red
-            secondaryColor: '#c53030',   // Darker Red
+            primaryColor: '#e22a22',     // Custom Red
+            secondaryColor: '#b81e1e',   // Darker Custom Red
             position: 'right',
             backgroundColor: '#ffffff',
             fontColor: '#2d3748'
@@ -499,7 +499,7 @@
         } catch (error) {
             console.error('Chat start error:', error);
             const indicator = messagesContainer.querySelector('.typing-indicator');
-            if (indicator) messagesContainer.removeChild(indicator);
+            if (indicator) indicator.parentNode.removeChild(indicator);
             const errorMessage = document.createElement('div');
             errorMessage.className = 'chat-bubble bot-bubble';
             errorMessage.textContent = "Sorry, I couldn't connect to the server. Please try again later.";
@@ -545,7 +545,8 @@
             messagesContainer.scrollTop = messagesContainer.scrollHeight;
         } catch (error) {
             console.error('Message submission error:', error);
-            messagesContainer.removeChild(typingIndicator);
+            const indicator = messagesContainer.querySelector('.typing-indicator');
+            if (indicator) indicator.parentNode.removeChild(indicator);
             const errorMessage = document.createElement('div');
             errorMessage.className = 'chat-bubble bot-bubble';
             errorMessage.textContent = "Sorry, I couldn't send your message. Please try again.";
@@ -558,7 +559,8 @@
 
     function autoResizeTextarea() {
         messageTextarea.style.height = 'auto';
-        messageTextarea.style.height = (messageTextarea.scrollHeight > 120 ? 120 : messageTextarea.scrollHeight) + 'px';
+        const newHeight = messageTextarea.scrollHeight;
+        messageTextarea.style.height = (newHeight > 120 ? 120 : newHeight) + 'px';
     }
     
     // UPDATED: Start button now calls startChat directly
