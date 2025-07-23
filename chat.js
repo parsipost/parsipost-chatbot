@@ -27,7 +27,7 @@
             welcomeText: '',
             responseTimeText: '',
             poweredBy: {
-                text: 'Powered by n8n',
+                text: 'Powered by parsipost',
                 link: 'https://n8n.partnerlinks.io/fabimarkl'
             }
         },
