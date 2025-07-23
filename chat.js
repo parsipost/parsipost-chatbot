@@ -364,8 +364,8 @@
             }
         },
         style: {
-            primaryColor: '#3b82f6', // Blue
-            secondaryColor: '#6366f1', // Indigo
+            primaryColor: '#e22a22', // Blue
+            secondaryColor: '#e22a22', // Indigo
             position: 'right',
             backgroundColor: '#ffffff',
             fontColor: '#111827'
