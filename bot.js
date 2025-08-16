@@ -464,7 +464,7 @@
     // Create toggle button with Persian text
     const launchButton = document.createElement('button');
     launchButton.className = `chat-launcher ${settings.style.position === 'left' ? 'left-side' : 'right-side'}`;
-    launchButton.innerHTML = `<img src='https://parsipost.ir/wp-content/uploads/2025/08/icon.webp'>`;
+    launchButton.innerHTML = `<img width="28" height="28" src='https://parsipost.ir/wp-content/uploads/2025/08/icon.webp'>`;
     
     widgetRoot.appendChild(chatWindow);
     widgetRoot.appendChild(launchButton);
