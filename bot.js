@@ -42,7 +42,6 @@
             background: var(--chat-color-surface);
             border-radius: var(--chat-radius-lg);
             box-shadow: var(--chat-shadow-lg);
-            border: 1px solid var(--chat-color-border);
             overflow: hidden;
             display: none;
             flex-direction: column;
@@ -51,7 +50,7 @@
             transform: translateY(20px) scale(0.95);
         }
 
-        .chat-assist-widget .chat-window.right-side { right: 20px; }
+        .chat-assist-widget .chat-window.right-side { right: 90px; margin: 10px }
         .chat-assist-widget .chat-window.left-side { left: 20px; }
 
         .chat-assist-widget .chat-window.visible {
@@ -310,7 +309,7 @@
         }
 
         .chat-assist-widget .chat-launcher.right-side { right: 20px; }
-        .chat-assist-widget .chat-launcher.left-side { left: 20px; }
+        .chat-assist-widget .chat-launcher.left-side { left: 80px;bottom: 40px }
 
         .chat-assist-widget .chat-launcher:hover {
             transform: scale(1.05);
@@ -452,8 +451,8 @@
             <div class="chat-controls">
                 <textarea class="chat-textarea" placeholder="پیام خود را بنویسید..." rows="1"></textarea>
                 <button class="chat-submit">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white" width="24" height="24">
-                        <path d="M3.478 2.405a.75.75 0 00-.926.94l2.432 7.905H13.5a.75.75 0 010 1.5H4.984l-2.432 7.905a.75.75 0 00.926.94 60.519 60.519 0 0018.445-8.986.75.75 0 000-1.218A60.517 60.517 0 003.478 2.405z" />
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white" width="24" height="24" style="transform: scaleX(-1);">
+                      <path d="M3.478 2.405a.75.75 0 00-.926.94l2.432 7.905H13.5a.75.75 0 010 1.5H4.984l-2.432 7.905a.75.75 0 00.926.94 60.519 60.519 0 0018.445-8.986.75.75 0 000-1.218A60.517 60.517 0 003.478 2.405z" />
                     </svg>
                 </button>
             </div>
@@ -465,11 +464,7 @@
     // Create toggle button with Persian text
     const launchButton = document.createElement('button');
     launchButton.className = `chat-launcher ${settings.style.position === 'left' ? 'left-side' : 'right-side'}`;
-    launchButton.innerHTML = `
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white" width="28" height="28">
-            <path fill-rule="evenodd" d="M4.848 2.771A49.144 49.144 0 0112 2.25c2.43 0 4.817.178 7.152.52 1.978.292 3.348 2.024 3.348 3.97v6.02c0 1.946-1.37 3.678-3.348 3.97a48.901 48.901 0 01-3.476.383.39.39 0 00-.297.15l-2.755 4.133a.75.75 0 01-1.248 0l-2.755-4.133a.39.39 0 00-.297-.15 48.9 48.9 0 01-3.476-.384c-1.978-.29-3.348-2.024-3.348-3.97V6.741c0-1.946 1.37-3.678 3.348-3.97zM6.75 8.25a.75.75 0 01.75-.75h9a.75.75 0 010 1.5h-9a.75.75 0 01-.75-.75zm.75 2.25a.75.75 0 000 1.5H12a.75.75 0 000-1.5H7.5z" clip-rule="evenodd" />
-        </svg>
-        <span class="chat-launcher-text">چت آنلاین</span>`;
+    launchButton.innerHTML = `<img src='https://parsipost.ir/wp-content/uploads/2025/08/icon.webp'>`;
     
     widgetRoot.appendChild(chatWindow);
     widgetRoot.appendChild(launchButton);
