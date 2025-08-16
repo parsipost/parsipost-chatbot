@@ -308,7 +308,7 @@
             gap: 10px;
         }
 
-        .chat-assist-widget .chat-launcher.right-side { right: 20px; }
+        .chat-assist-widget .chat-launcher.right-side { right: 90px; margin: 10px }
         .chat-assist-widget .chat-launcher.left-side { left: 80px;bottom: 40px }
 
         .chat-assist-widget .chat-launcher:hover {
