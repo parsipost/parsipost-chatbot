@@ -10,23 +10,23 @@
     fontElement.href = 'https://cdn.jsdelivr.net/gh/rastikerdar/vazir-font@v30.1.0/dist/font-face.css';
     document.head.appendChild(fontElement);
 
-    // Apply widget styles with the user-specified red/gray theme
+    // Apply widget styles with the user-specified red/gray theme and messenger look
     const widgetStyles = document.createElement('style');
     widgetStyles.textContent = `
         .chat-assist-widget {
             --chat-color-primary: var(--chat-widget-primary, #e22a22);      /* Custom Red */
             --chat-color-secondary: var(--chat-widget-secondary, #b81e1e);   /* Darker Custom Red */
-            --chat-color-light: var(--chat-widget-light, #f9d6d6);          /* Lighter Custom Red */
+            --chat-color-light: var(--chat-widget-light, #f9d6d6);         /* Lighter Custom Red */
             --chat-color-surface: var(--chat-widget-surface, #ffffff);
-            --chat-color-text: var(--chat-widget-text, #2d3748);            /* Dark Gray */
+            --chat-color-text: var(--chat-widget-text, #2d3748);           /* Dark Gray */
             --chat-color-text-light: var(--chat-widget-text-light, #718096);/* Medium Gray */
-            --chat-color-border: var(--chat-widget-border, #e2e8f0);        /* Light Gray */
+            --chat-color-border: var(--chat-widget-border, #e2e8f0);       /* Light Gray */
             --chat-shadow-sm: 0 1px 3px rgba(60, 64, 72, 0.1);
             --chat-shadow-md: 0 4px 8px rgba(60, 64, 72, 0.15);
             --chat-shadow-lg: 0 10px 20px rgba(60, 64, 72, 0.2);
             --chat-radius-sm: 6px;
             --chat-radius-md: 10px;
-            --chat-radius-lg: 16px;
+            --chat-radius-lg: 18px; /* Increased for a softer look */
             --chat-radius-full: 9999px;
             --chat-transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             font-family: Vazir, 'Poppins', sans-serif;
@@ -50,7 +50,7 @@
             transform: translateY(20px) scale(0.95);
         }
 
-        .chat-assist-widget .chat-window.right-side { right: 90px; margin: 10px }
+        .chat-assist-widget .chat-window.right-side { right: 20px; }
         .chat-assist-widget .chat-window.left-side { left: 20px; }
 
         .chat-assist-widget .chat-window.visible {
@@ -67,6 +67,7 @@
             background: linear-gradient(135deg, var(--chat-color-primary) 0%, var(--chat-color-secondary) 100%);
             color: white;
             position: relative;
+            border-bottom: 1px solid rgba(0,0,0,0.1);
         }
 
         .chat-assist-widget .chat-header-logo {
@@ -172,17 +173,36 @@
         .chat-assist-widget .chat-messages {
             flex: 1;
             overflow-y: auto;
-            padding: 20px;
-            background: #edf2f7;
+            padding: 20px 20px 10px 20px; /* Adjusted padding */
+            background: #f0f2f5; /* Lighter, modern chat background */
             display: flex;
             flex-direction: column;
-            gap: 12px;
+            gap: 4px; /* Reduced gap for tighter message look */
+        }
+        
+        /* NEW: Container for bot message + avatar */
+        .chat-assist-widget .bot-message-container {
+            display: flex;
+            align-items: flex-end; /* Aligns avatar with bottom of bubble */
+            gap: 10px;
+            align-self: flex-end; /* flex-end is LEFT in RTL */
+            max-width: 90%;
+        }
+
+        /* NEW: Bot avatar style */
+        .chat-assist-widget .bot-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: var(--chat-radius-full);
+            background: var(--chat-color-surface);
+            border: 1px solid var(--chat-color-border);
+            flex-shrink: 0; /* Prevents avatar from shrinking */
         }
         
         .chat-assist-widget .chat-bubble {
-            padding: 14px 18px;
-            border-radius: var(--chat-radius-md);
-            max-width: 85%;
+            padding: 12px 16px;
+            border-radius: var(--chat-radius-lg);
+            max-width: 100%; /* Bubble takes width of its container */
             word-wrap: break-word;
             font-size: 14px;
             line-height: 1.6;
@@ -193,16 +213,16 @@
         .chat-assist-widget .chat-bubble.user-bubble {
             background: linear-gradient(135deg, var(--chat-color-primary) 0%, var(--chat-color-secondary) 100%);
             color: white;
-            align-self: flex-start;
-            border-bottom-left-radius: 4px;
+            align-self: flex-start; /* flex-start is RIGHT in RTL */
+            border-radius: var(--chat-radius-lg) 4px var(--chat-radius-lg) var(--chat-radius-lg); /* Messenger style tail */
             box-shadow: var(--chat-shadow-sm);
         }
 
         .chat-assist-widget .chat-bubble.bot-bubble {
             background: white;
             color: var(--chat-color-text);
-            align-self: flex-end;
-            border-bottom-right-radius: 4px;
+            /* align-self is now on the container */
+            border-radius: 4px var(--chat-radius-lg) var(--chat-radius-lg) var(--chat-radius-lg); /* Messenger style tail */
             box-shadow: var(--chat-shadow-sm);
             border: 1px solid var(--chat-color-border);
         }
@@ -213,10 +233,8 @@
             gap: 5px;
             padding: 14px 18px;
             background: white;
-            border-radius: var(--chat-radius-md);
-            border-bottom-right-radius: 4px;
+            border-radius: 4px var(--chat-radius-lg) var(--chat-radius-lg) var(--chat-radius-lg);
             width: fit-content;
-            align-self: flex-end;
             box-shadow: var(--chat-shadow-sm);
             border: 1px solid var(--chat-color-border);
         }
@@ -238,28 +256,30 @@
         }
 
         .chat-assist-widget .chat-controls {
-            padding: 16px;
+            padding: 12px 16px;
             background: var(--chat-color-surface);
             border-top: 1px solid var(--chat-color-border);
             display: flex;
             gap: 10px;
+            align-items: center;
         }
 
         .chat-assist-widget .chat-textarea {
             flex: 1;
-            padding: 14px 16px;
+            padding: 12px 16px;
             border: 1px solid var(--chat-color-border);
             border-radius: var(--chat-radius-md);
-            background: #edf2f7;
+            background: #f0f2f5;
             color: var(--chat-color-text);
             resize: none;
             font-family: inherit;
             font-size: 14px;
-            max-height: 120px;
-            min-height: 48px;
+            max-height: 100px;
+            min-height: 44px;
             transition: var(--chat-transition);
             direction: rtl;
             text-align: right;
+            line-height: 1.5;
         }
 
         .chat-assist-widget .chat-textarea:focus {
@@ -273,9 +293,9 @@
             background: linear-gradient(135deg, var(--chat-color-primary) 0%, var(--chat-color-secondary) 100%);
             color: white;
             border: none;
-            border-radius: var(--chat-radius-md);
-            width: 48px;
-            height: 48px;
+            border-radius: var(--chat-radius-full); /* Circular button */
+            width: 44px;
+            height: 44px;
             cursor: pointer;
             transition: var(--chat-transition);
             display: flex;
@@ -293,10 +313,10 @@
         .chat-assist-widget .chat-launcher {
             position: fixed;
             bottom: 20px;
+            width: 56px;
             height: 56px;
             border-radius: var(--chat-radius-full);
             background: linear-gradient(135deg, var(--chat-color-primary) 0%, var(--chat-color-secondary) 100%);
-            color: white;
             border: none;
             cursor: pointer;
             box-shadow: var(--chat-shadow-md);
@@ -304,38 +324,34 @@
             transition: var(--chat-transition);
             display: flex;
             align-items: center;
-            padding: 0 20px;
-            gap: 10px;
+            justify-content: center; /* Center the icon */
         }
 
-        .chat-assist-widget .chat-launcher.right-side { right: 90px; margin: 10px }
-        .chat-assist-widget .chat-launcher.left-side { left: 80px;bottom: 40px }
+        .chat-assist-widget .chat-launcher.right-side { right: 20px; }
+        .chat-assist-widget .chat-launcher.left-side { left: 20px; }
 
         .chat-assist-widget .chat-launcher:hover {
             transform: scale(1.05);
             box-shadow: var(--chat-shadow-lg);
         }
-
-        .chat-assist-widget .chat-launcher svg { width: 26px; height: 26px; }
-        .chat-assist-widget .chat-launcher-text { font-weight: 600; font-size: 15px; }
         
         .chat-assist-widget .suggested-questions { 
             display: flex; 
-            flex-direction: column; 
+            flex-wrap: wrap; /* Allow questions to wrap */
+            justify-content: flex-end; /* Align to the left in RTL */
             gap: 8px; 
             margin: 12px 0; 
-            align-self: flex-end; 
-            max-width: 85%; 
+            align-self: flex-end; /* Align the container to the left in RTL */
+            max-width: 90%; 
         }
         
         .chat-assist-widget .suggested-question-btn { 
-            background: #f3f4f6; 
-            border: 1px solid var(--chat-color-border); 
-            border-radius: var(--chat-radius-md); 
-            padding: 10px 14px; 
-            text-align: right; 
+            background: var(--chat-color-surface); 
+            border: 1px solid var(--chat-color-primary); 
+            border-radius: var(--chat-radius-full); /* Pill shape */
+            padding: 8px 14px; 
             font-size: 13px; 
-            color: var(--chat-color-text); 
+            color: var(--chat-color-primary); 
             cursor: pointer; 
             transition: var(--chat-transition); 
             direction: rtl;
@@ -343,7 +359,6 @@
         
         .chat-assist-widget .suggested-question-btn:hover { 
             background: var(--chat-color-light); 
-            border-color: var(--chat-color-primary); 
         }
         
         .chat-assist-widget .chat-link { 
@@ -357,7 +372,7 @@
         
         /* Scrollbar styling */
         .chat-assist-widget ::-webkit-scrollbar {
-            width: 8px;
+            width: 6px;
         }
         
         .chat-assist-widget ::-webkit-scrollbar-track {
@@ -376,7 +391,7 @@
     `;
     document.head.appendChild(widgetStyles);
 
-    // Default configuration with Persian text
+    // Default configuration with Persian text and new botAvatar
     const defaultSettings = {
         webhook: {
             url: '',
@@ -386,10 +401,12 @@
             logo: '',
             name: 'پشتیبانی آنلاین',
             welcomeText: 'سلام! چطور می‌توانم به شما کمک کنم؟',
-            responseTimeText: 'باسخگویی بدون وقفه',
+            responseTimeText: 'پاسخگویی در سریع‌ترین زمان',
+            // NEW: Add a URL for the bot's avatar
+            botAvatar: 'https://api.iconify.design/ph:robot-fill.svg?color=%23e22a22',
         },
         style: {
-            primaryColor: '#e22a22',     // Custom Red
+            primaryColor: '#e22a22',   // Custom Red
             secondaryColor: '#b81e1e',   // Darker Custom Red
             position: 'right',
             backgroundColor: '#ffffff',
@@ -397,7 +414,7 @@
         },
         suggestedQuestions: [
             'چگونه می‌توانم حساب کاربری ایجاد کنم؟',
-            'قیمت‌های شما چگونه است؟',
+            'قیمت‌ها چگونه است؟',
             'آیا راهنمای استفاده دارید؟'
         ]
     };
@@ -464,7 +481,7 @@
     // Create toggle button with Persian text
     const launchButton = document.createElement('button');
     launchButton.className = `chat-launcher ${settings.style.position === 'left' ? 'left-side' : 'right-side'}`;
-    launchButton.innerHTML = `<img width="28" height="28" src='https://parsipost.ir/wp-content/uploads/2025/08/icon.webp'>`;
+    launchButton.innerHTML = `<img width="28" height="28" src='https://api.iconify.design/ph:chat-teardrop-dots-fill.svg?color=white'>`;
     
     widgetRoot.appendChild(chatWindow);
     widgetRoot.appendChild(launchButton);
@@ -479,17 +496,55 @@
     const sendButton = chatWindow.querySelector('.chat-submit');
     
     function createSessionId() { return crypto.randomUUID(); }
-
-    function createTypingIndicator() {
-        const indicator = document.createElement('div');
-        indicator.className = 'typing-indicator';
-        indicator.innerHTML = `<div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div>`;
-        return indicator;
-    }
-
+    
     function linkifyText(text) {
         const urlPattern = /(\b(https?|ftp):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/gim;
         return text.replace(urlPattern, url => `<a href="${url}" target="_blank" rel="noopener noreferrer" class="chat-link">${url}</a>`);
+    }
+    
+    // NEW HELPER: To add bot messages to avoid code repetition
+    function addBotMessage(htmlContent) {
+        const messageContainer = document.createElement('div');
+        messageContainer.className = 'bot-message-container';
+
+        const avatar = document.createElement('img');
+        avatar.className = 'bot-avatar';
+        avatar.src = settings.branding.botAvatar;
+
+        const bubble = document.createElement('div');
+        bubble.className = 'chat-bubble bot-bubble';
+        bubble.innerHTML = htmlContent;
+
+        messageContainer.appendChild(avatar);
+        messageContainer.appendChild(bubble);
+        messagesContainer.appendChild(messageContainer);
+        messagesContainer.scrollTop = messagesContainer.scrollHeight;
+    }
+
+    // NEW HELPER: To show/hide typing indicator
+    function showTypingIndicator() {
+        if (messagesContainer.querySelector('.typing-indicator-container')) return; // Already showing
+
+        const indicatorContainer = document.createElement('div');
+        indicatorContainer.className = 'bot-message-container typing-indicator-container';
+        
+        const avatar = document.createElement('img');
+        avatar.className = 'bot-avatar';
+        avatar.src = settings.branding.botAvatar;
+
+        const indicator = document.createElement('div');
+        indicator.className = 'typing-indicator';
+        indicator.innerHTML = `<div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div>`;
+        
+        indicatorContainer.appendChild(avatar);
+        indicatorContainer.appendChild(indicator);
+        messagesContainer.appendChild(indicatorContainer);
+        messagesContainer.scrollTop = messagesContainer.scrollHeight;
+    }
+    
+    function hideTypingIndicator() {
+        const indicator = messagesContainer.querySelector('.typing-indicator-container');
+        if (indicator) indicator.remove();
     }
     
     // Function to start the chat
@@ -499,9 +554,7 @@
         conversationId = createSessionId();
         isWaitingForResponse = true;
 
-        const typingIndicator = createTypingIndicator();
-        messagesContainer.appendChild(typingIndicator);
-        messagesContainer.scrollTop = messagesContainer.scrollHeight;
+        showTypingIndicator();
 
         try {
             // Send an initial event to the webhook to get the welcome message
@@ -522,13 +575,10 @@
             });
             const responseData = await response.json();
 
-            messagesContainer.removeChild(typingIndicator);
+            hideTypingIndicator();
 
-            const botMessage = document.createElement('div');
-            botMessage.className = 'chat-bubble bot-bubble';
             const messageText = Array.isArray(responseData) ? responseData[0].output : responseData.output;
-            botMessage.innerHTML = linkifyText(messageText);
-            messagesContainer.appendChild(botMessage);
+            addBotMessage(linkifyText(messageText));
 
             if (settings.suggestedQuestions && Array.isArray(settings.suggestedQuestions) && settings.suggestedQuestions.length > 0) {
                 const suggestedQuestionsContainer = document.createElement('div');
@@ -551,13 +601,8 @@
 
         } catch (error) {
             console.error('Chat start error:', error);
-            const indicator = messagesContainer.querySelector('.typing-indicator');
-            if (indicator) indicator.parentNode.removeChild(indicator);
-            const errorMessage = document.createElement('div');
-            errorMessage.className = 'chat-bubble bot-bubble';
-            errorMessage.textContent = "متأسفیم، ارتباط با سرور برقرار نشد. لطفاً بعداً تلاش کنید.";
-            messagesContainer.appendChild(errorMessage);
-            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+            hideTypingIndicator();
+            addBotMessage("متأسفیم، ارتباط با سرور برقرار نشد. لطفاً بعداً تلاش کنید.");
         } finally {
             isWaitingForResponse = false;
         }
@@ -566,6 +611,10 @@
     async function submitMessage(messageText) {
         if (isWaitingForResponse) return;
         isWaitingForResponse = true;
+        
+        // Remove suggested questions if they exist
+        const suggested = messagesContainer.querySelector('.suggested-questions');
+        if(suggested) suggested.remove();
         
         const requestData = {
             action: "sendMessage",
@@ -579,10 +628,9 @@
         userMessage.className = 'chat-bubble user-bubble';
         userMessage.textContent = messageText;
         messagesContainer.appendChild(userMessage);
-
-        const typingIndicator = createTypingIndicator();
-        messagesContainer.appendChild(typingIndicator);
         messagesContainer.scrollTop = messagesContainer.scrollHeight;
+
+        showTypingIndicator();
 
         try {
             const response = await fetch(settings.webhook.url, { 
@@ -594,23 +642,15 @@
                 body: JSON.stringify(requestData) 
             });
             const responseData = await response.json();
-            messagesContainer.removeChild(typingIndicator);
+            hideTypingIndicator();
 
-            const botMessage = document.createElement('div');
-            botMessage.className = 'chat-bubble bot-bubble';
             const responseText = Array.isArray(responseData) ? responseData[0].output : responseData.output;
-            botMessage.innerHTML = linkifyText(responseText);
-            messagesContainer.appendChild(botMessage);
-            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+            addBotMessage(linkifyText(responseText));
+
         } catch (error) {
             console.error('Message submission error:', error);
-            const indicator = messagesContainer.querySelector('.typing-indicator');
-            if (indicator) indicator.parentNode.removeChild(indicator);
-            const errorMessage = document.createElement('div');
-            errorMessage.className = 'chat-bubble bot-bubble';
-            errorMessage.textContent = "متأسفیم، ارسال پیام شما با مشکل مواجه شد. لطفاً دوباره تلاش کنید.";
-            messagesContainer.appendChild(errorMessage);
-            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+            hideTypingIndicator();
+            addBotMessage("متأسفیم، ارسال پیام شما با مشکل مواجه شد. لطفاً دوباره تلاش کنید.");
         } finally {
             isWaitingForResponse = false;
         }
@@ -619,7 +659,7 @@
     function autoResizeTextarea() {
         messageTextarea.style.height = 'auto';
         const newHeight = messageTextarea.scrollHeight;
-        messageTextarea.style.height = (newHeight > 120 ? 120 : newHeight) + 'px';
+        messageTextarea.style.height = (newHeight > 100 ? 100 : newHeight) + 'px';
     }
     
     // Event listeners
