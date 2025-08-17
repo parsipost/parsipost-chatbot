@@ -14,13 +14,13 @@
     const widgetStyles = document.createElement('style');
     widgetStyles.textContent = `
         .chat-assist-widget {
-            --chat-color-primary: var(--chat-widget-primary, #e22a22);     /* Custom Red */
+            --chat-color-primary: var(--chat-widget-primary, #e22a22);      /* Custom Red */
             --chat-color-secondary: var(--chat-widget-secondary, #b81e1e);   /* Darker Custom Red */
-            --chat-color-light: var(--chat-widget-light, #f9d6d6);         /* Lighter Custom Red */
+            --chat-color-light: var(--chat-widget-light, #f9d6d6);          /* Lighter Custom Red */
             --chat-color-surface: var(--chat-widget-surface, #ffffff);
             --chat-color-text: var(--chat-widget-text, #2d3748);           /* Dark Gray */
             --chat-color-text-light: var(--chat-widget-text-light, #718096);/* Medium Gray */
-            --chat-color-border: var(--chat-widget-border, #e2e8f0);       /* Light Gray */
+            --chat-color-border: var(--chat-widget-border, #e2e8f0);        /* Light Gray */
             --chat-shadow-sm: 0 1px 3px rgba(60, 64, 72, 0.1);
             --chat-shadow-md: 0 4px 8px rgba(60, 64, 72, 0.15);
             --chat-shadow-lg: 0 10px 20px rgba(60, 64, 72, 0.2);
@@ -48,7 +48,7 @@
             opacity: 0;
             transform: translateY(20px) scale(0.95);
         }
-        .chat-assist-widget .chat-window.right-side { right: 90px; margin: 10px }
+        .chat-assist-widget .chat-window.right-side { right: 20px; }
         .chat-assist-widget .chat-window.left-side { left: 20px; }
         .chat-assist-widget .chat-window.visible {
             display: flex;
@@ -63,6 +63,7 @@
             background: linear-gradient(135deg, var(--chat-color-primary) 0%, var(--chat-color-secondary) 100%);
             color: white;
             position: relative;
+            flex-shrink: 0; /* NEW: Prevent header from shrinking */
         }
         .chat-assist-widget .chat-header-logo {
             width: 32px;
@@ -100,7 +101,7 @@
             background: rgba(255, 255, 255, 0.3);
             transform: translateY(-50%) scale(1.1);
         }
-        /* New Styles for Header Action Buttons */
+        /* MODIFIED: Header Action Buttons visibility */
         .chat-assist-widget .chat-header-actions {
             position: absolute;
             left: 52px;
@@ -108,6 +109,14 @@
             transform: translateY(-50%);
             display: flex;
             gap: 8px;
+            opacity: 0; /* Initially hidden */
+            visibility: hidden; /* Initially hidden */
+            transition: opacity 0.3s, visibility 0.3s;
+        }
+        /* MODIFIED: Show actions only when chat session is active */
+        .chat-assist-widget .chat-window.chat-session-active .chat-header-actions {
+            opacity: 1;
+            visibility: visible;
         }
         .chat-assist-widget .chat-action-btn {
             background: rgba(255, 255, 255, 0.15);
@@ -176,6 +185,7 @@
             display: none;
             flex-direction: column;
             height: 100%;
+            overflow: hidden; /* NEW: Prevent inner elements from overflowing rounded corners */
         }
         .chat-assist-widget .chat-body.active {
             display: flex;
@@ -241,6 +251,7 @@
             border-top: 1px solid var(--chat-color-border);
             display: flex;
             gap: 10px;
+            flex-shrink: 0; /* NEW: Prevent controls from shrinking */
         }
         .chat-assist-widget .chat-textarea {
             flex: 1;
@@ -283,10 +294,12 @@
             transform: scale(1.05);
             box-shadow: var(--chat-shadow-md);
         }
+        /* MODIFIED: Launcher button style fixed */
         .chat-assist-widget .chat-launcher {
             position: fixed;
             bottom: 20px;
-            height: 56px;
+            width: 56px;  /* Fixed width */
+            height: 56px; /* Fixed height */
             border-radius: var(--chat-radius-full);
             background: linear-gradient(135deg, var(--chat-color-primary) 0%, var(--chat-color-secondary) 100%);
             color: white;
@@ -297,16 +310,21 @@
             transition: var(--chat-transition);
             display: flex;
             align-items: center;
-            padding: 0 20px;
+            justify-content: center; /* Center icon */
+            padding: 0; /* Removed padding */
             gap: 10px;
         }
-        .chat-assist-widget .chat-launcher.right-side { right: 90px; margin: 10px }
-        .chat-assist-widget .chat-launcher.left-side { left: 80px; bottom: 40px }
+        .chat-assist-widget .chat-launcher.right-side { right: 20px; }
+        .chat-assist-widget .chat-launcher.left-side { left: 20px; }
         .chat-assist-widget .chat-launcher:hover {
             transform: scale(1.05);
             box-shadow: var(--chat-shadow-lg);
         }
-        .chat-assist-widget .chat-launcher svg { width: 26px; height: 26px; }
+        .chat-assist-widget .chat-launcher svg,
+        .chat-assist-widget .chat-launcher img { /* Target both potential icons */
+            width: 28px;
+            height: 28px;
+        }
         .chat-assist-widget .chat-launcher-text { font-weight: 600; font-size: 15px; }
         .chat-assist-widget .suggested-questions {
             display: flex;
@@ -339,20 +357,10 @@
         .chat-assist-widget .chat-link:hover {
             color: var(--chat-color-secondary);
         }
-        .chat-assist-widget ::-webkit-scrollbar {
-            width: 8px;
-        }
-        .chat-assist-widget ::-webkit-scrollbar-track {
-            background: #f1f1f1;
-            border-radius: 10px;
-        }
-        .chat-assist-widget ::-webkit-scrollbar-thumb {
-            background: #c1c1c1;
-            border-radius: 10px;
-        }
-        .chat-assist-widget ::-webkit-scrollbar-thumb:hover {
-            background: #a8a8a8;
-        }
+        .chat-assist-widget ::-webkit-scrollbar { width: 8px; }
+        .chat-assist-widget ::-webkit-scrollbar-track { background: #f1f1f1; border-radius: 10px; }
+        .chat-assist-widget ::-webkit-scrollbar-thumb { background: #c1c1c1; border-radius: 10px; }
+        .chat-assist-widget ::-webkit-scrollbar-thumb:hover { background: #a8a8a8; }
         .chat-assist-widget .message-row {
             display: flex;
             gap: 10px;
@@ -386,15 +394,14 @@
             transform: rotate(45deg);
             border-bottom-left-radius: 2px;
         }
-        /* MODIFIED: User bubble tail for better appearance */
         .chat-assist-widget .message-row.user .chat-bubble::after {
             content: "";
             position: absolute;
             right: -6px; bottom: 10px;
             width: 12px; height: 12px;
-            background: var(--chat-color-secondary); /* Using solid color for a cleaner tail */
+            background: var(--chat-color-secondary);
             transform: rotate(45deg);
-            border-bottom-right-radius: 2px; /* Soften the corner */
+            border-bottom-right-radius: 2px;
         }
         .chat-assist-widget .message-row .typing-indicator {
             display: inline-flex;
@@ -408,6 +415,30 @@
         @keyframes fadeInUp {
             from { opacity: 0; transform: translateY(6px); }
             to   { opacity: 1; transform: translateY(0); }
+        }
+
+        /* NEW: Mobile Responsive Styles */
+        @media (max-width: 480px) {
+            .chat-assist-widget .chat-window {
+                width: 100%;
+                height: 100%;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                border-radius: 0;
+                box-shadow: none;
+                /* Animation from bottom */
+                transform: translateY(100%);
+            }
+            .chat-assist-widget .chat-window.visible {
+                transform: translateY(0);
+            }
+            .chat-assist-widget .chat-launcher {
+                bottom: 15px;
+            }
+            .chat-assist-widget .chat-launcher.right-side { right: 15px; }
+            .chat-assist-widget .chat-launcher.left-side { left: 15px; }
         }
     `;
     document.head.appendChild(widgetStyles);
@@ -508,7 +539,7 @@
 
     const launchButton = document.createElement('button');
     launchButton.className = `chat-launcher ${settings.style.position === 'left' ? 'left-side' : 'right-side'}`;
-    launchButton.innerHTML = `<img width="28" height="28" src='https://parsipost.ir/wp-content/uploads/2025/08/icon.webp' alt="chat">`;
+    launchButton.innerHTML = `<img src='https://parsipost.ir/wp-content/uploads/2025/08/icon.webp' alt="chat">`;
 
     widgetRoot.appendChild(chatWindow);
     widgetRoot.appendChild(launchButton);
@@ -521,8 +552,8 @@
     const messagesContainer = chatWindow.querySelector('.chat-messages');
     const messageTextarea = chatWindow.querySelector('.chat-textarea');
     const sendButton = chatWindow.querySelector('.chat-submit');
-    const clearChatButton = chatWindow.querySelector('.chat-clear-btn'); // New button
-    const resetChatButton = chatWindow.querySelector('.chat-reset-btn'); // New button
+    const clearChatButton = chatWindow.querySelector('.chat-clear-btn');
+    const resetChatButton = chatWindow.querySelector('.chat-reset-btn');
 
     function createSessionId() { return crypto.randomUUID(); }
     
@@ -572,7 +603,6 @@
         return row;
     }
 
-    // NEW: Function to fetch the initial welcome message
     async function fetchInitialMessage() {
         isWaitingForResponse = true;
         const typingIndicator = createTypingIndicator();
@@ -632,11 +662,12 @@
     async function startChat() {
         chatWelcome.style.display = 'none';
         chatBody.classList.add('active');
+        chatWindow.classList.add('chat-session-active'); // NEW: Add class to show header icons
         conversationId = createSessionId();
         await fetchInitialMessage();
     }
     
-    // NEW: Function to clear chat history
+    // Function to clear chat history
     function clearChat() {
         const allMessages = messagesContainer.querySelectorAll('.message-row, .suggested-questions');
         if (allMessages.length <= 1) return; // Nothing to clear
@@ -645,13 +676,12 @@
         }
     }
 
-    // NEW: Function to reset and start a new chat
+    // Function to reset and start a new chat
     async function resetChat() {
         messagesContainer.innerHTML = ''; // Clear all visible messages
         conversationId = createSessionId(); // Start a new logical session
         await fetchInitialMessage(); // Fetch the welcome message again
     }
-
 
     async function submitMessage(messageText) {
         if (isWaitingForResponse) return;
@@ -702,7 +732,6 @@
     // Event listeners
     startChatButton.addEventListener('click', startChat);
     
-    // ADDED: Listeners for new buttons
     clearChatButton.addEventListener('click', clearChat);
     resetChatButton.addEventListener('click', resetChat);
 
