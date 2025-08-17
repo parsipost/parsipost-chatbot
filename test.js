@@ -356,9 +356,8 @@
            width: 56px;
            height: 56px;
            border-radius: var(--chat-radius-full);
-           background: linear-gradient(135deg, var(--chat-color-primary) 0%, var(--chat-color-secondary) 100%);
            color: white;
-           border: none;
+           border: 2px splid  var(--chat-color-primary);
            cursor: pointer;
            box-shadow: var(--chat-shadow-md);
            z-index: 999;
