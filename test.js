@@ -48,7 +48,7 @@
            opacity: 0;
            transform: translateY(20px) scale(0.95);
        }
-       .chat-assist-widget .chat-window.right-side { right: 20px; }
+       .chat-assist-widget .chat-window.right-side { right: 80px; margin 10px 15px }
        .chat-assist-widget .chat-window.left-side { left: 20px; }
        .chat-assist-widget .chat-window.visible {
            display: flex;
@@ -507,11 +507,6 @@
     const widgetRoot = document.createElement('div');
     widgetRoot.className = 'chat-assist-widget';
 
-    // Apply custom colors from settings
-    widgetRoot.style.setProperty('--chat-widget-primary', settings.style.primaryColor);
-    widgetRoot.style.setProperty('--chat-widget-secondary', settings.style.secondaryColor);
-    widgetRoot.style.setProperty('--chat-widget-surface', settings.style.backgroundColor);
-    widgetRoot.style.setProperty('--chat-widget-text', settings.style.fontColor);
 
     const chatWindow = document.createElement('div');
     chatWindow.className = `chat-window ${settings.style.position === 'left' ? 'left-side' : 'right-side'}`;
@@ -562,7 +557,7 @@
 
     const launchButton = document.createElement('button');
     launchButton.className = `chat-launcher ${settings.style.position === 'left' ? 'left-side' : 'right-side'}`;
-    launchButton.innerHTML = `<img src='https://parsipost.ir/wp-content/uploads/2025/08/icon.webp' alt="chat">`;
+    launchButton.innerHTML = `<img src='https://parsipost.ir/wp-content/uploads/2025/08/icon.webp' width="64" height="64" alt="chat">`;
 
     widgetRoot.appendChild(chatWindow);
     widgetRoot.appendChild(launchButton);
