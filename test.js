@@ -1,4 +1,4 @@
-// Interactive Chat Widget for n8n - Persian RTL Support & Enhanced UI (with bot avatar + message-style bubbles)
+// Interactive Chat Widget for n8n - Persian RTL Support & Enhanced UI
 (function() {
     // Initialize widget only once
     if (window.N8nChatWidgetLoaded) return;
@@ -220,6 +220,30 @@
            border: 1px solid var(--chat-color-border);
            border-bottom-left-radius: 4px;
        }
+       .chat-assist-widget .message-row.bot .chat-bubble::after {
+           content: "";
+           position: absolute;
+           left: -6px;
+           bottom: 10px;
+           width: 12px;
+           height: 12px;
+           background: #fff;
+           border-left: 1px solid var(--chat-color-border);
+           border-bottom: 1px solid var(--chat-color-border);
+           transform: rotate(45deg);
+           z-index: 1;
+       }
+       .chat-assist-widget .message-row.user .chat-bubble::after {
+           content: "";
+           position: absolute;
+           right: -6px;
+           bottom: 10px;
+           width: 12px;
+           height: 12px;
+           background: var(--chat-color-secondary);
+           transform: rotate(45deg);
+           z-index: 1;
+       }
        .chat-assist-widget .typing-indicator {
            display: flex;
            align-items: center;
@@ -278,19 +302,34 @@
        }
        .chat-assist-widget .chat-textarea::-webkit-scrollbar {
            width: 6px;
+           opacity: 0;
+           transition: opacity 0.3s;
+       }
+       .chat-assist-widget .chat-textarea:hover::-webkit-scrollbar,
+       .chat-assist-widget .chat-textarea:focus::-webkit-scrollbar {
+           opacity: 1;
        }
        .chat-assist-widget .chat-textarea::-webkit-scrollbar-track {
            background: transparent;
-       }
-       .chat-assist-widget .chat-textarea::-webkit-scrollbar-thumb {
-           background: transparent;
            border-radius: 3px;
        }
-       .chat-assist-widget .chat-textarea:hover::-webkit-scrollbar-thumb {
-           background: #ccc;
+       .chat-assist-widget .chat-textarea::-webkit-scrollbar-thumb {
+           background: rgba(0,0,0,0.2);
+           border-radius: 3px;
+           opacity: 0;
+           transition: opacity 0.3s, background 0.3s;
        }
-       .chat-assist-widget .chat-textarea::-webkit-scrollbar-thumb:hover {
-           background: #aaa;
+       .chat-assist-widget .chat-textarea:hover::-webkit-scrollbar-thumb,
+       .chat-assist-widget .chat-textarea:focus::-webkit-scrollbar-thumb {
+           opacity: 1;
+           background: rgba(0,0,0,0.3);
+       }
+       .chat-assist-widget .chat-textarea.has-scroll::-webkit-scrollbar {
+           opacity: 0;
+       }
+       .chat-assist-widget .chat-textarea.has-scroll:hover::-webkit-scrollbar,
+       .chat-assist-widget .chat-textarea.has-scroll:focus::-webkit-scrollbar {
+           opacity: 1;
        }
        .chat-assist-widget .chat-submit {
            background: linear-gradient(135deg, var(--chat-color-primary) 0%, var(--chat-color-secondary) 100%);
@@ -398,37 +437,6 @@
            max-width: 78%;
            direction: rtl;
            animation: fadeInUp 0.2s ease-out;
-       }
-       .chat-assist-widget .message-row.bot .chat-bubble::after {
-           content: "";
-           position: absolute;
-           left: -6px;
-           bottom: 0px;
-           width: 12px; height: 12px;
-           background: #fff;
-           border-left: 1px solid var(--chat-color-border);
-           border-bottom: 1px solid var(--chat-color-border);
-           transform: rotate(45deg);
-           border-bottom-left-radius: 2px;
-       }
-       .chat-assist-widget .message-row.user .chat-bubble::after {
-           content: "";
-           position: absolute;
-           right: -6px;
-           bottom: 6px;
-           width: 12px; height: 12px;
-           background: var(--chat-color-secondary);
-           transform: rotate(-135deg);
-           border-top-right-radius: 2px;
-       }
-       .chat-assist-widget .message-row .typing-indicator {
-           display: inline-flex;
-           align-items: center;
-           gap: 6px;
-           padding: 10px 14px;
-           background: #fff;
-           border: 1px solid var(--chat-color-border);
-           border-radius: 14px;
        }
        @keyframes fadeInUp {
            from { opacity: 0; transform: translateY(6px); }
@@ -618,6 +626,14 @@
         return row;
     }
 
+    function checkTextareaScroll() {
+        if (messageTextarea.scrollHeight > messageTextarea.clientHeight) {
+            messageTextarea.classList.add('has-scroll');
+        } else {
+            messageTextarea.classList.remove('has-scroll');
+        }
+    }
+
     async function fetchInitialMessage() {
         isWaitingForResponse = true;
         const typingIndicator = createTypingIndicator();
@@ -739,6 +755,7 @@
         messageTextarea.style.height = 'auto';
         const newHeight = messageTextarea.scrollHeight;
         messageTextarea.style.height = (newHeight > 120 ? 120 : newHeight) + 'px';
+        checkTextareaScroll();
     }
 
     // Event listeners
