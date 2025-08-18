@@ -238,18 +238,6 @@
             clip-path: polygon(0 0, 100% 100%, 0 100%);
             box-shadow: var(--chat-shadow-sm);
         }
-        .chat-assist-widget .message-row.user .chat-bubble::after {
-            content: "";
-            position: absolute;
-            right: -6px;
-            bottom: 2px;
-            width: 12px;
-            height: 12px;
-            background: var(--chat-color-secondary);
-            transform: rotate(45deg);
-            z-index: 1;
-            clip-path: polygon(0 0, 100% 100%, 100% 0);
-        }
         .chat-assist-widget .typing-indicator {
             display: flex;
             align-items: center;
