@@ -1,4 +1,3 @@
-// Interactive Chat Widget for n8n - Persian RTL Support & Enhanced UI
 (function() {
     // Initialize widget only once
     if (window.N8nChatWidgetLoaded) return;
@@ -10,7 +9,7 @@
     fontElement.href = 'https://cdn.jsdelivr.net/gh/rastikerdar/vazir-font@v30.1.0/dist/font-face.css';
     document.head.appendChild(fontElement);
 
-    // Apply widget styles with all the requested modifications
+    // Apply widget styles with modified bot bubble tail
     const widgetStyles = document.createElement('style');
     widgetStyles.textContent = `
         .chat-assist-widget {
@@ -48,7 +47,7 @@
             opacity: 0;
             transform: translateY(20px) scale(0.95);
         }
-        .chat-assist-widget .chat-window.right-side { right: 80px; margin 10px 15px }
+        .chat-assist-widget .chat-window.right-side { right: 80px; margin: 10px 15px; }
         .chat-assist-widget .chat-window.left-side { left: 20px; }
         .chat-assist-widget .chat-window.visible {
             display: flex;
@@ -219,26 +218,20 @@
             color: var(--chat-color-text);
             border: 1px solid var(--chat-color-border);
             border-bottom-left-radius: 0;
-            position: relative;
-            overflow: hidden;
         }
-        /* MODIFIED: Enhanced bubble tail for bot messages */
+        /* Modified: Seamless bot bubble tail */
         .chat-assist-widget .message-row.bot .chat-bubble::after {
             content: "";
             position: absolute;
-            left: -1px;
-            bottom: -1px;
+            left: -8px;
+            bottom: 0px;
             width: 12px;
             height: 12px;
-            background: inherit;
-            border: none;
+            background: white;
             transform: rotate(45deg);
-            z-index: -1;
-            box-shadow: inherit;
-            border-radius: 0 0 0 4px;
-            filter: brightness(0.98);
+            z-index: 0;
+            box-shadow: var(--chat-shadow-sm);
         }
-        /* MODIFIED: Bubble tail position for user messages */
         .chat-assist-widget .message-row.user .chat-bubble::after {
             content: "";
             position: absolute;
@@ -359,9 +352,9 @@
             justify-content: center;
             padding: 0;
             gap: 10px;
-            background-color: var(--chat-color-surface)
+            background-color: var(--chat-color-surface);
         }
-        .chat-assist-widget .chat-launcher.right-side { right: 80px; margin : 10px 15px}
+        .chat-assist-widget .chat-launcher.right-side { right: 80px; margin: 10px 15px; }
         .chat-assist-widget .chat-launcher.left-side { left: 20px; }
         .chat-assist-widget .chat-launcher:hover {
             transform: scale(1.05);
@@ -452,7 +445,7 @@
             .chat-assist-widget .chat-launcher {
                 bottom: 15px;
             }
-            .chat-assist-widget .chat-launcher.right-side { right: 80px; margin: 10px 15px }
+            .chat-assist-widget .chat-launcher.right-side { right: 80px; margin: 10px 15px; }
             .chat-assist-widget .chat-launcher.left-side { left: 15px; }
         }
     `;
