@@ -368,6 +368,9 @@
         .chat-assist-widget .chat-launcher.visible {
             transform: translateY(-120px); /* Slide to final position (bottom: 20px) */
         }
+        .chat-assist-widget .chat-launcher.coin-flip {
+            animation: coinFlip 1s ease-in-out forwards;
+        }
         .chat-assist-widget .chat-launcher:hover {
             transform: translateY(-120px) scale(1.05); /* Maintain position on hover */
             box-shadow: var(--chat-shadow-lg);
@@ -438,6 +441,11 @@
         @keyframes fadeInUp {
             from { opacity: 0; transform: translateY(6px); }
             to   { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes coinFlip {
+            0% { transform: perspective(500px) rotateY(0deg); }
+            50% { transform: perspective(500px) rotateY(180deg) scale(1.2); }
+            100% { transform: perspective(500px) rotateY(360deg); }
         }
         @media (max-width: 480px) {
             .chat-assist-widget .chat-window {
@@ -568,7 +576,14 @@
     // Animation logic: Slide up after 3 seconds
     setTimeout(() => {
         launchButton.classList.add('visible');
-    }, 3000);
+        setTimeout(() => {
+            launchButton.classList.add('coin-flip');
+            // Remove coin-flip class after animation completes to allow replay if needed
+            setTimeout(() => {
+                launchButton.classList.remove('coin-flip');
+            }, 1000);
+        }, 2000); // Coin flip after 2 seconds
+    }, 2000);
 
     // Get references to elements
     const startChatButton = chatWindow.querySelector('.chat-start-btn');
