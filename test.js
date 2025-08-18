@@ -1,4 +1,4 @@
-// Interactive Chat Widget for n8n - Persian RTL Support & Enhanced UI with Slide-Up Animation
+// Interactive Chat Widget for n8n - Persian RTL Support & Enhanced UI with Slide-Up and Coin-Flip Animation
 (function() {
     // Initialize widget only once
     if (window.N8nChatWidgetLoaded) return;
@@ -10,7 +10,7 @@
     fontElement.href = 'https://cdn.jsdelivr.net/gh/rastikerdar/vazir-font@v30.1.0/dist/font-face.css';
     document.head.appendChild(fontElement);
 
-    // Apply widget styles with slide-up animation
+    // Apply widget styles with slide-up and coin-flip animations
     const widgetStyles = document.createElement('style');
     widgetStyles.textContent = `
         .chat-assist-widget {
@@ -355,13 +355,14 @@
             cursor: pointer;
             box-shadow: var(--chat-shadow-lg);
             z-index: 2000000003;
-            transition: transform 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55); /* Smooth slide-up */
+            transition: transform 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55);
             display: flex;
             align-items: center;
             justify-content: center;
             padding: 0;
             gap: 10px;
             background-color: var(--chat-color-surface);
+            will-change: transform; /* Optimize animation performance */
         }
         .chat-assist-widget .chat-launcher.right-side { right: 80px; margin: 10px 15px; }
         .chat-assist-widget .chat-launcher.left-side { left: 20px; }
@@ -372,7 +373,7 @@
             animation: coinFlip 1s ease-in-out forwards;
         }
         .chat-assist-widget .chat-launcher:hover {
-            transform: translateY(-120px) scale(1.05); /* Maintain position on hover */
+            transform: translateY(-120px) scale(1.05); /* Maintain slide-up position on hover */
             box-shadow: var(--chat-shadow-lg);
         }
         .chat-assist-widget .chat-launcher svg,
@@ -443,9 +444,9 @@
             to   { opacity: 1; transform: translateY(0); }
         }
         @keyframes coinFlip {
-            0% { transform: perspective(500px) rotateY(0deg); }
-            50% { transform: perspective(500px) rotateY(180deg) scale(1.2); }
-            100% { transform: perspective(500px) rotateY(360deg); }
+            0% { transform: translateY(-120px) perspective(500px) rotateY(0deg); }
+            50% { transform: translateY(-120px) perspective(500px) rotateY(180deg) scale(1.2); }
+            100% { transform: translateY(-120px) perspective(500px) rotateY(360deg); }
         }
         @media (max-width: 480px) {
             .chat-assist-widget .chat-window {
@@ -463,15 +464,23 @@
                 transform: translateY(0);
             }
             .chat-assist-widget .chat-launcher {
-                bottom: 15px;
+                bottom: -100px; /* Start off-screen */
             }
             .chat-assist-widget .chat-launcher.right-side { right: 80px; margin: 10px 15px; }
             .chat-assist-widget .chat-launcher.left-side { left: 15px; }
             .chat-assist-widget .chat-launcher.visible {
-                transform: translateY(-30px); /* Adjust for mobile */
+                transform: translateY(-115px); /* Adjust for mobile (bottom: 15px) */
             }
             .chat-assist-widget .chat-launcher:hover {
-                transform: translateY(-30px) scale(1.05);
+                transform: translateY(-115px) scale(1.05);
+            }
+            .chat-assist-widget .chat-launcher.coin-flip {
+                animation: coinFlipMobile 1s ease-in-out forwards;
+            }
+            @keyframes coinFlipMobile {
+                0% { transform: translateY(-115px) perspective(500px) rotateY(0deg); }
+                50% { transform: translateY(-115px) perspective(500px) rotateY(180deg) scale(1.2); }
+                100% { transform: translateY(-115px) perspective(500px) rotateY(360deg); }
             }
         }
     `;
@@ -537,7 +546,7 @@
                     <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
                 </button>
             </div>
-            <button class="chat-close-btn">×</button>
+            <button class="close-btn">×</button>
         </div>
         <div class="chat-welcome">
             <h2 class="chat-welcome-title">${settings.branding.welcomeText}</h2>
@@ -573,17 +582,16 @@
     widgetRoot.appendChild(launchButton);
     document.body.appendChild(widgetRoot);
 
-    // Animation logic: Slide up after 3 seconds
+    // Animation logic: Slide up after 3 seconds, coin-flip after 2 more seconds
     setTimeout(() => {
         launchButton.classList.add('visible');
         setTimeout(() => {
             launchButton.classList.add('coin-flip');
-            // Remove coin-flip class after animation completes to allow replay if needed
             setTimeout(() => {
                 launchButton.classList.remove('coin-flip');
-            }, 1000);
-        }, 2000); // Coin flip after 2 seconds
-    }, 2000);
+            }, 1000); // Remove coin-flip class after animation duration
+        }, 2000); // Coin-flip after 2 seconds
+    }, 3000); // Slide-up after 3 seconds
 
     // Get references to elements
     const startChatButton = chatWindow.querySelector('.chat-start-btn');
@@ -594,6 +602,7 @@
     const sendButton = chatWindow.querySelector('.chat-submit');
     const clearChatButton = chatWindow.querySelector('.chat-clear-btn');
     const resetChatButton = chatWindow.querySelector('.chat-reset-btn');
+    const closeButtons = chatWindow.querySelectorAll('.close-btn');
 
     function createSessionId() { return crypto.randomUUID(); }
 
@@ -793,7 +802,6 @@
         chatWindow.classList.toggle('visible');
     });
 
-    const closeButtons = chatWindow.querySelectorAll('.chat-close-btn');
     closeButtons.forEach(button => {
         button.addEventListener('click', () => {
             chatWindow.classList.remove('visible');
