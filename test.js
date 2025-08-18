@@ -226,7 +226,7 @@
         .chat-assist-widget .message-row.bot .chat-bubble::after {
             content: "";
             position: absolute;
-            left: -7px;
+            left: -6px;
             bottom: 0;
             width: 12px;
             height: 12px;
@@ -236,17 +236,19 @@
             transform: rotate(45deg);
             z-index: 0;
             clip-path: polygon(0 0, 100% 100%, 0 100%);
+            box-shadow: var(--chat-shadow-sm);
         }
         .chat-assist-widget .message-row.user .chat-bubble::after {
             content: "";
             position: absolute;
             right: -6px;
-            bottom: 0px;
+            bottom: 2px;
             width: 12px;
             height: 12px;
             background: var(--chat-color-secondary);
             transform: rotate(45deg);
             z-index: 1;
+            clip-path: polygon(0 0, 100% 100%, 100% 0);
         }
         .chat-assist-widget .typing-indicator {
             display: flex;
@@ -255,10 +257,25 @@
             padding: 14px 18px;
             background: white;
             border-radius: var(--chat-radius-md);
-            border-bottom-right-radius: 4px;
+            border-bottom-left-radius: 4px;
             width: fit-content;
             box-shadow: var(--chat-shadow-sm);
             border: 1px solid var(--chat-color-border);
+        }
+        .chat-assist-widget .typing-indicator::after {
+            content: "";
+            position: absolute;
+            left: -6px;
+            bottom: 0;
+            width: 12px;
+            height: 12px;
+            background: white;
+            border-left: 1px solid var(--chat-color-border);
+            border-bottom: 1px solid var(--chat-color-border);
+            transform: rotate(45deg);
+            z-index: 0;
+            clip-path: polygon(0 0, 100% 100%, 0 100%);
+            box-shadow: var(--chat-shadow-sm);
         }
         .chat-assist-widget .typing-dot {
             width: 8px;
