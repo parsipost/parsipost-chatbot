@@ -1,3 +1,4 @@
+// Interactive Chat Widget for n8n - Persian RTL Support & Enhanced UI
 (function() {
     // Initialize widget only once
     if (window.N8nChatWidgetLoaded) return;
@@ -9,9 +10,9 @@
     fontElement.href = 'https://cdn.jsdelivr.net/gh/rastikerdar/vazir-font@v30.1.0/dist/font-face.css';
     document.head.appendChild(fontElement);
 
-    // Apply widget styles with modified bot bubble tail
+    // Apply widget styles with all the requested modifications
     const widgetStyles = document.createElement('style');
-    widgetStyles.textContent = `
+    widgetStyles.textContent =  = `
         .chat-assist-widget {
             --chat-color-primary: var(--chat-widget-primary, #e22a22);      /* Custom Red */
             --chat-color-secondary: var(--chat-widget-secondary, #b81e1e);    /* Darker Custom Red */
@@ -218,19 +219,23 @@
             color: var(--chat-color-text);
             border: 1px solid var(--chat-color-border);
             border-bottom-left-radius: 0;
+            position: relative;
+            overflow: visible; /* تغییر به visible برای نمایش دم */
         }
         /* Modified: Seamless bot bubble tail */
         .chat-assist-widget .message-row.bot .chat-bubble::after {
             content: "";
             position: absolute;
-            left: -8px;
-            bottom: 0px;
+            left: -7px;
+            bottom: 0;
             width: 12px;
             height: 12px;
             background: white;
+            border-left: 1px solid var(--chat-color-border);
+            border-bottom: 1px solid var(--chat-color-border);
             transform: rotate(45deg);
             z-index: 0;
-            box-shadow: var(--chat-shadow-sm);
+            clip-path: polygon(0 0, 100% 100%, 0 100%);
         }
         .chat-assist-widget .message-row.user .chat-bubble::after {
             content: "";
