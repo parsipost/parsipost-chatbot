@@ -1,4 +1,4 @@
-// Interactive Chat Widget for n8n - Persian RTL Support & Enhanced UI
+// Interactive Chat Widget for n8n - Persian RTL Support & Enhanced UI with Animations
 (function() {
     // Initialize widget only once
     if (window.N8nChatWidgetLoaded) return;
@@ -10,17 +10,17 @@
     fontElement.href = 'https://cdn.jsdelivr.net/gh/rastikerdar/vazir-font@v30.1.0/dist/font-face.css';
     document.head.appendChild(fontElement);
 
-    // Apply widget styles with all the requested modifications
+    // Apply widget styles with animations
     const widgetStyles = document.createElement('style');
     widgetStyles.textContent = `
         .chat-assist-widget {
-            --chat-color-primary: var(--chat-widget-primary, #e22a22);      /* Custom Red */
-            --chat-color-secondary: var(--chat-widget-secondary, #b81e1e);    /* Darker Custom Red */
-            --chat-color-light: var(--chat-widget-light, #f9d6d6);          /* Lighter Custom Red */
+            --chat-color-primary: var(--chat-widget-primary, #e22a22);
+            --chat-color-secondary: var(--chat-widget-secondary, #b81e1e);
+            --chat-color-light: var(--chat-widget-light, #f9d6d6);
             --chat-color-surface: var(--chat-widget-surface, #ffffff);
-            --chat-color-text: var(--chat-widget-text, #2d3748);            /* Dark Gray */
-            --chat-color-text-light: var(--chat-widget-text-light, #718096);/* Medium Gray */
-            --chat-color-border: var(--chat-widget-border, #e2e8f0);        /* Light Gray */
+            --chat-color-text: var(--chat-widget-text, #2d3748);
+            --chat-color-text-light: var(--chat-widget-text-light, #718096);
+            --chat-color-border: var(--chat-widget-border, #e2e8f0);
             --chat-shadow-sm: 0 1px 3px rgba(60, 64, 72, 0.1);
             --chat-shadow-md: 0 4px 8px rgba(60, 64, 72, 0.15);
             --chat-shadow-lg: 0 10px 20px rgba(60, 64, 72, 0.2);
@@ -220,9 +220,8 @@
             border: 1px solid var(--chat-color-border);
             border-bottom-left-radius: 0;
             position: relative;
-            overflow: visible; /* تغییر به visible برای نمایش دم */
+            overflow: visible;
         }
-        /* Modified: Seamless bot bubble tail */
         .chat-assist-widget .message-row.bot .chat-bubble::after {
             content: "";
             position: absolute;
@@ -347,7 +346,7 @@
         }
         .chat-assist-widget .chat-launcher {
             position: fixed;
-            bottom: 20px;
+            bottom: -100px; /* Start off-screen */
             width: 60px;
             height: 60px;
             border-radius: var(--chat-radius-full);
@@ -356,16 +355,24 @@
             cursor: pointer;
             box-shadow: var(--chat-shadow-lg);
             z-index: 2000000003;
-            transition: var(--chat-transition);
+            transition: transform 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55), opacity 0.8s ease-in-out;
             display: flex;
             align-items: center;
             justify-content: center;
             padding: 0;
             gap: 10px;
             background-color: var(--chat-color-surface);
+            opacity: 0;
         }
         .chat-assist-widget .chat-launcher.right-side { right: 80px; margin: 10px 15px; }
         .chat-assist-widget .chat-launcher.left-side { left: 20px; }
+        .chat-assist-widget .chat-launcher.visible {
+            bottom: 20px;
+            opacity: 1;
+        }
+        .chat-assist-widget .chat-launcher.coin-flip {
+            animation: coinFlip 1s ease-in-out forwards;
+        }
         .chat-assist-widget .chat-launcher:hover {
             transform: scale(1.05);
             box-shadow: var(--chat-shadow-lg);
@@ -436,6 +443,11 @@
         @keyframes fadeInUp {
             from { opacity: 0; transform: translateY(6px); }
             to   { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes coinFlip {
+            0% { transform: perspective(500px) rotateY(0deg); }
+            50% { transform: perspective(500px) rotateY(180deg) scale(1.2); }
+            100% { transform: perspective(500px) rotateY(360deg); }
         }
         @media (max-width: 480px) {
             .chat-assist-widget .chat-window {
@@ -556,6 +568,18 @@
     widgetRoot.appendChild(chatWindow);
     widgetRoot.appendChild(launchButton);
     document.body.appendChild(widgetRoot);
+
+    // Animation logic
+    setTimeout(() => {
+        launchButton.classList.add('visible');
+        setTimeout(() => {
+            launchButton.classList.add('coin-flip');
+            // Remove coin-flip class after animation completes to allow replay if needed
+            setTimeout(() => {
+                launchButton.classList.remove('coin-flip');
+            }, 1000);
+        }, 2000); // Coin flip after 2 seconds
+    }, 3000); // Initial slide-up after 3 seconds
 
     // Get references to elements
     const startChatButton = chatWindow.querySelector('.chat-start-btn');
