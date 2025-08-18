@@ -345,13 +345,13 @@
         .chat-assist-widget .chat-launcher {
             position: fixed;
             bottom: 20px;
-            width: 56px;
-            height: 56px;
+            width: 64px;
+            height: 64px;
             border-radius: var(--chat-radius-full);
             color: white;
-            border: 2px splid  var(--chat-color-primary);
+            border: 2px splid var(--chat-color-primary);
             cursor: pointer;
-            box-shadow: var(--chat-shadow-md);
+            box-shadow: var(--chat-shadow-lg);
             z-index: 999;
             transition: var(--chat-transition);
             display: flex;
@@ -359,6 +359,7 @@
             justify-content: center;
             padding: 0;
             gap: 10px;
+            background-color: var(--chat-color-surface)
         }
         .chat-assist-widget .chat-launcher.right-side { right: 80px; margin : 10px 15px}
         .chat-assist-widget .chat-launcher.left-side { left: 20px; }
@@ -466,7 +467,7 @@
             userAvatar: '',
             name: 'پشتیبانی آنلاین',
             welcomeText: 'سلام! چطور می‌توانم به شما کمک کنم؟',
-            responseTimeText: 'پاسخگویی بدون وقفه',
+            responseTimeText: '',
         },
         style: {
             primaryColor: '#e22a22',
