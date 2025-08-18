@@ -360,7 +360,7 @@
             padding: 0;
             gap: 10px;
         }
-        .chat-assist-widget .chat-launcher.right-side { right: 80px; margin 10px 15px !important}
+        .chat-assist-widget .chat-launcher.right-side { right: 80px; margin : 10px 15px}
         .chat-assist-widget .chat-launcher.left-side { left: 20px; }
         .chat-assist-widget .chat-launcher:hover {
             transform: scale(1.05);
@@ -451,7 +451,7 @@
             .chat-assist-widget .chat-launcher {
                 bottom: 15px;
             }
-            .chat-assist-widget .chat-launcher.right-side { right: 80px; margin 10px 15px }
+            .chat-assist-widget .chat-launcher.right-side { right: 80px; margin: 10px 15px }
             .chat-assist-widget .chat-launcher.left-side { left: 15px; }
         }
     `;
