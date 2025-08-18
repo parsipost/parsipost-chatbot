@@ -212,29 +212,33 @@
             background: linear-gradient(135deg, var(--chat-color-primary) 0%, var(--chat-color-secondary) 100%);
             color: white;
             border: none;
-            border-bottom-right-radius: 0; /* MODIFIED */
+            border-bottom-right-radius: 0;
         }
         .chat-assist-widget .chat-bubble.bot-bubble {
             background: white;
             color: var(--chat-color-text);
             border: 1px solid var(--chat-color-border);
-            border-bottom-left-radius: 0; /* MODIFIED */
+            border-bottom-left-radius: 0;
+            position: relative;
+            overflow: hidden;
         }
-        /* MODIFIED: Bubble tail position */
+        /* MODIFIED: Enhanced bubble tail for bot messages */
         .chat-assist-widget .message-row.bot .chat-bubble::after {
             content: "";
             position: absolute;
-            left: -7px;
-            bottom: 0px;
+            left: -1px;
+            bottom: -1px;
             width: 12px;
             height: 12px;
-            background: #fff;
-            border-left: 1px solid var(--chat-color-border);
-            border-bottom: 1px solid var(--chat-color-border);
+            background: inherit;
+            border: none;
             transform: rotate(45deg);
-            z-index: 0;
+            z-index: -1;
+            box-shadow: inherit;
+            border-radius: 0 0 0 4px;
+            filter: brightness(0.98);
         }
-        /* MODIFIED: Bubble tail position */
+        /* MODIFIED: Bubble tail position for user messages */
         .chat-assist-widget .message-row.user .chat-bubble::after {
             content: "";
             position: absolute;
@@ -302,8 +306,6 @@
             box-shadow: 0 0 0 3px var(--chat-color-light);
             background: var(--chat-color-surface);
         }
-
-        /* --- MODIFIED: New scrollbar styles --- */
         .chat-assist-widget .chat-textarea::-webkit-scrollbar {
             width: 8px;
         }
@@ -321,8 +323,6 @@
         .chat-assist-widget .chat-textarea::-webkit-scrollbar-thumb:hover {
             background-color: rgba(0, 0, 0, 0.4);
         }
-        /* --- END of new scrollbar styles --- */
-
         .chat-assist-widget .chat-submit {
             background: linear-gradient(135deg, var(--chat-color-primary) 0%, var(--chat-color-secondary) 100%);
             color: white;
