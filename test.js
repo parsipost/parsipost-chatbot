@@ -34,8 +34,8 @@
         }
         .chat-assist-widget .chat-window {
             position: fixed;
-            bottom: 90px;
-            z-index: 1000;
+            bottom: 100px;
+            z-index: 2000000003;
             width: 380px;
             height: 580px;
             background: var(--chat-color-surface);
@@ -345,14 +345,14 @@
         .chat-assist-widget .chat-launcher {
             position: fixed;
             bottom: 20px;
-            width: 64px;
-            height: 64px;
+            width: 60px;
+            height: 60px;
             border-radius: var(--chat-radius-full);
             color: white;
-            border: 2px splid var(--chat-color-primary);
+            border: 1px solid var(--chat-color-primary);
             cursor: pointer;
             box-shadow: var(--chat-shadow-lg);
-            z-index: 999;
+            z-index: 2000000003;
             transition: var(--chat-transition);
             display: flex;
             align-items: center;
