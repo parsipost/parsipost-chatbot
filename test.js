@@ -12,7 +12,7 @@
 
     // Apply widget styles with all the requested modifications
     const widgetStyles = document.createElement('style');
-    widgetStyles.textContent =  = `
+    widgetStyles.textContent = `
         .chat-assist-widget {
             --chat-color-primary: var(--chat-widget-primary, #e22a22);      /* Custom Red */
             --chat-color-secondary: var(--chat-widget-secondary, #b81e1e);    /* Darker Custom Red */
