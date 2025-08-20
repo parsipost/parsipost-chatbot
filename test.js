@@ -50,7 +50,6 @@
         }
         .chat-assist-widget .chat-window.right-side { 
             right: 90px; 
-            margin: 10px 15px; 
         }
         .chat-assist-widget .chat-window.left-side { 
             left: 20px; 
@@ -487,7 +486,7 @@
                 z-index: 2000000003;
             }
             .chat-assist-widget .chat-launcher.right-side { 
-                right: 15px; 
+                right: 90px; 
                 margin: 10px; 
             }
             .chat-assist-widget .chat-launcher.left-side { 
@@ -565,7 +564,7 @@
                 height: 580px;
             }
             .chat-assist-widget .chat-launcher.right-side { 
-                right: 25px; 
+                right: 90px; 
             }
             .chat-assist-widget .chat-launcher.left-side { 
                 left: 25px; 
@@ -577,7 +576,7 @@
                 height: 600px;
             }
             .chat-assist-widget .chat-launcher.right-side { 
-                right: 30px; 
+                right: 90px; 
             }
             .chat-assist-widget .chat-launcher.left-side { 
                 left: 30px; 
