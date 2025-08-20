@@ -34,7 +34,7 @@
         }
         .chat-assist-widget .chat-window {
             position: fixed;
-            bottom: 100px;
+            bottom: 30px;
             z-index: 2000000003;
             width: 380px;
             height: 580px;
