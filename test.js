@@ -355,7 +355,7 @@
             cursor: pointer;
             box-shadow: var(--chat-shadow-lg);
             z-index: 2000000003;
-            transition: transform 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55), opacity 0.4s;
+            transition: transform 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55), opacity 0.3s ease;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -363,11 +363,17 @@
             gap: 10px;
             background-color: var(--chat-color-surface);
             will-change: transform; /* Optimize animation performance */
+            opacity: 1;
         }
         .chat-assist-widget .chat-launcher.right-side { right: 80px; margin: 10px 15px; }
         .chat-assist-widget .chat-launcher.left-side { left: 20px; }
         .chat-assist-widget .chat-launcher.visible {
             transform: translateY(-120px); /* Slide to final position (bottom: 20px) */
+        }
+        .chat-assist-widget .chat-launcher.hidden {
+            opacity: 0;
+            pointer-events: none;
+            transform: translateY(-120px) scale(0.8);
         }
         .chat-assist-widget .chat-launcher.coin-flip {
             animation: coinFlip 1s ease-in-out forwards;
@@ -376,14 +382,6 @@
             transform: translateY(-120px) scale(1.05); /* Maintain slide-up position on hover */
             box-shadow: var(--chat-shadow-lg);
         }
-
-        /* --- ADDED RULE: Hide launcher when chat window is visible --- */
-        .chat-assist-widget .chat-window.visible ~ .chat-launcher {
-            transform: translateY(150px); /* Slide down and out of view */
-            opacity: 0;
-            pointer-events: none;
-        }
-
         .chat-assist-widget .chat-launcher svg,
         .chat-assist-widget .chat-launcher img {
             width: 28px;
@@ -466,19 +464,23 @@
                 bottom: 0;
                 border-radius: 0;
                 box-shadow: none;
-                transform: translateY(100%); /* Start off-screen */
-                margin: 0; /* Override margin for full screen */
+                transform: translateY(100%);
+                z-index: 2000000004;
             }
             .chat-assist-widget .chat-window.visible {
-                transform: translateY(0); /* Slide in to fill screen */
+                transform: translateY(0);
             }
             .chat-assist-widget .chat-launcher {
                 bottom: -100px; /* Start off-screen */
+                z-index: 2000000003;
             }
-            .chat-assist-widget .chat-launcher.right-side { right: 15px; margin: 0; }
+            .chat-assist-widget .chat-launcher.right-side { right: 20px; margin: 10px; }
             .chat-assist-widget .chat-launcher.left-side { left: 15px; }
             .chat-assist-widget .chat-launcher.visible {
-                transform: translateY(-115px); /* Adjust for mobile (final position bottom: 15px) */
+                transform: translateY(-115px); /* Adjust for mobile (bottom: 15px) */
+            }
+            .chat-assist-widget .chat-launcher.hidden {
+                transform: translateY(-115px) scale(0.8);
             }
             .chat-assist-widget .chat-launcher:hover {
                 transform: translateY(-115px) scale(1.05);
@@ -490,6 +492,21 @@
                 0% { transform: translateY(-115px) perspective(500px) rotateY(0deg); }
                 50% { transform: translateY(-115px) perspective(500px) rotateY(180deg) scale(1.2); }
                 100% { transform: translateY(-115px) perspective(500px) rotateY(360deg); }
+            }
+            .chat-assist-widget .chat-header {
+                padding: 20px 16px;
+            }
+            .chat-assist-widget .chat-messages {
+                padding: 16px;
+            }
+            .chat-assist-widget .chat-controls {
+                padding: 12px;
+            }
+            .chat-assist-widget .chat-bubble {
+                max-width: 90%;
+            }
+            .chat-assist-widget .message-row .chat-bubble {
+                max-width: 85%;
             }
         }
     `;
@@ -808,12 +825,20 @@
 
     launchButton.addEventListener('click', () => {
         chatWindow.classList.toggle('visible');
+        // Hide launcher when chat is opened
+        if (chatWindow.classList.contains('visible')) {
+            launchButton.classList.add('hidden');
+        } else {
+            launchButton.classList.remove('hidden');
+        }
     });
 
     const closeButtons = chatWindow.querySelectorAll('.chat-close-btn');
     closeButtons.forEach(button => {
         button.addEventListener('click', () => {
             chatWindow.classList.remove('visible');
+            // Show launcher when chat is closed
+            launchButton.classList.remove('hidden');
         });
     });
 })();
