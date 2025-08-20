@@ -49,7 +49,7 @@
             transform: translateY(20px) scale(0.95);
         }
         .chat-assist-widget .chat-window.right-side { 
-            right: 20px; 
+            right: 90px; 
             margin: 10px 15px; 
         }
         .chat-assist-widget .chat-window.left-side { 
@@ -371,7 +371,9 @@
             opacity: 1;
         }
         .chat-assist-widget .chat-launcher.right-side { 
-            right: 20px; 
+            right: 90px; 
+        }
+        .place-icon{
             margin: 10px 15px; 
         }
         .chat-assist-widget .chat-launcher.left-side { 
@@ -682,7 +684,7 @@
     chatWindow.innerHTML = welcomeScreenHTML + chatInterfaceHTML;
 
     const launchButton = document.createElement('button');
-    launchButton.className = `chat-launcher ${settings.style.position === 'left' ? 'left-side' : 'right-side'}`;
+    launchButton.className = `chat-launcher ${settings.style.position === 'left' ? 'left-side' : 'right-side place-icon'}`;
     launchButton.innerHTML = `<img src='https://parsipost.ir/wp-content/uploads/2025/08/icon.webp' style="width: 64px;height: 64px;" alt="chat">`;
 
     widgetRoot.appendChild(chatWindow);
