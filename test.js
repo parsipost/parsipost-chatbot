@@ -355,7 +355,7 @@
             cursor: pointer;
             box-shadow: var(--chat-shadow-lg);
             z-index: 2000000003;
-            transition: transform 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            transition: transform 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55), opacity 0.4s;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -376,6 +376,14 @@
             transform: translateY(-120px) scale(1.05); /* Maintain slide-up position on hover */
             box-shadow: var(--chat-shadow-lg);
         }
+
+        /* --- ADDED RULE: Hide launcher when chat window is visible --- */
+        .chat-assist-widget .chat-window.visible ~ .chat-launcher {
+            transform: translateY(150px); /* Slide down and out of view */
+            opacity: 0;
+            pointer-events: none;
+        }
+
         .chat-assist-widget .chat-launcher svg,
         .chat-assist-widget .chat-launcher img {
             width: 28px;
@@ -458,18 +466,19 @@
                 bottom: 0;
                 border-radius: 0;
                 box-shadow: none;
-                transform: translateY(100%);
+                transform: translateY(100%); /* Start off-screen */
+                margin: 0; /* Override margin for full screen */
             }
             .chat-assist-widget .chat-window.visible {
-                transform: translateY(0);
+                transform: translateY(0); /* Slide in to fill screen */
             }
             .chat-assist-widget .chat-launcher {
                 bottom: -100px; /* Start off-screen */
             }
-            .chat-assist-widget .chat-launcher.right-side { right: 80px; margin: 10px 15px; }
+            .chat-assist-widget .chat-launcher.right-side { right: 15px; margin: 0; }
             .chat-assist-widget .chat-launcher.left-side { left: 15px; }
             .chat-assist-widget .chat-launcher.visible {
-                transform: translateY(-115px); /* Adjust for mobile (bottom: 15px) */
+                transform: translateY(-115px); /* Adjust for mobile (final position bottom: 15px) */
             }
             .chat-assist-widget .chat-launcher:hover {
                 transform: translateY(-115px) scale(1.05);
