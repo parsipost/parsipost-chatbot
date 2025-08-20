@@ -358,7 +358,7 @@
             border: 1px solid var(--chat-color-primary);
             cursor: pointer;
             box-shadow: var(--chat-shadow-lg);
-            z-index: 2000000003;
+            z-index: 2000000001;
             transition: transform 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55), opacity 0.3s ease;
             display: flex;
             align-items: center;
@@ -483,7 +483,7 @@
             }
             .chat-assist-widget .chat-launcher {
                 bottom: -100px; /* Start off-screen */
-                z-index: 2000000003;
+                z-index: 2000000001;
             }
             .chat-assist-widget .chat-launcher.right-side { 
                 right: 90px; 
